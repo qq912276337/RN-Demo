@@ -1,17 +1,43 @@
 import React,{Component} from 'react';
-import {AppRegistry,Text,View} from 'react-native';
+import {AppRegistry,SectionList,Text,View,Image,FlatList, StyleSheet} from 'react-native';
 
-class ReactDemo01 extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {}
-  }
-
-  Render(){
-    return(
-
-    );
-  }
+export default class ReactDemo01 extends Component {
+    render() {
+        return (
+            <View style={styles.container}>
+                <SectionList
+                    sections={[
+            {title: 'D', data: ['Devin']},
+            {title: 'J', data: ['Jackson', 'James', 'Jillian', 'Jimmy', 'Joel', 'John', 'Julie']},
+          ]}
+                    renderItem={({item}) => <Text style={styles.item}>{item}</Text>}
+                    renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+                />
+            </View>
+        );
+    }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        paddingTop: 22
+    },
+    sectionHeader: {
+        paddingTop: 2,
+        paddingLeft: 12,
+        paddingRight: 10,
+        paddingBottom: 2,
+        fontSize: 14,
+        fontWeight: 'bold',
+        backgroundColor: 'rgba(247,247,247,1.0)',
+    },
+    item: {
+        padding: 10,
+        fontSize: 18,
+        height: 44,
+    },
+})
+
+
+AppRegistry.registerComponent('ReactDemo01',()=>ReactDemo01);
