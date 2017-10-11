@@ -10,11 +10,12 @@ import {
 // 引入外部的js文件
 var LoginView = require('./loginView');
 var DDShareView = require('./ShareView');
+var DemoScrollView = require('./DemoScrollView');
 
 class ReactDemo01 extends Component {
     render() {
         return (
-            <LoginView />
+            <DemoScrollView />
         );
     }
 }
