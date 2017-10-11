@@ -14,6 +14,14 @@ fetch('https://mywebsite.com/endpoint/', {
     })
 })
 
+fetch('https://mywebsite.com/endpoint/',{
+    method:'POST',
+    headers:{
+        'Accept':'application/json',
+        'Content-Type': 'application/json',
+    }
+})
+
 
 fetch('https://mywebsite.com/endpoint/', {
     method: 'POST',
