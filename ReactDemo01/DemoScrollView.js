@@ -19,43 +19,147 @@ import {
 var Dimensions = require('Dimensions');
 var ScreenWidth = Dimensions.get('window').width;
 
+// 引入定时器
+var TimerMixin = require('react-timer-mixin');
 
-class DemoScrollView extends  Component {
+// imageData
+var ImageData = require('./ImageData.json');
+
+var DemoScrollView = React.createClass({
+
+    // 注册定时器
+    mixins:[TimerMixin],
+
+    getInitialState() {
+        return {
+            currentPage: 0,
+        }
+
+    },
+
+
     render(){
         return (
             <View style={styles.container}>
-               
                 <ScrollView
                     horizontal={true}
-                    pagingEnabled={true}
                     showsHorizontalScrollIndicator={false}
+                    pagingEnabled={true}
+                    onMomentumScrollEnd={(event)=>{
+                        console.log(event.nativeEvent.contentOffset.x);
+
+                        var offSetX = event.nativeEvent.contentOffset.x;
+                        var page = Math.floor((offSetX / ScreenWidth + 0.5));
+
+                        console.log(page);
+
+                        this.setState({
+                            currentPage:page,
+                        })
+                    }}
                 >
                     {this.addSubViews()}
                 </ScrollView>
+
+
+                <View style={styles.pageViewStyle}>
+                    {this.addPageControls()}
+                </View>
             </View>
         );
-    }
+    },
 
     addSubViews(){
         var childs = [];
-        var colors = ['red','gray','green','yellow','red','blue'];
-        for(var i = 0;i<6;i++){
-            childs.push(<View key={i} style={{backgroundColor:colors[i],width:ScreenWidth,height:120}}>
-                <Text>i</Text>
-            </View>);
+        var images = ImageData.data;
+
+        for(var i = 0;i<images.length;i++) {
+            var imageItem = images[i];
+
+            childs.push(
+                <Image key={i} source={{uri:imageItem.img}} style={{width:ScreenWidth,height:120}}></Image>
+            )
         }
         return childs;
-    }
-}
+    },
+
+    addPageControls(){
+        var pages = [];
+        var images = ImageData.data;
+        var style;
+
+        for(var i = 0;i<images.length;i++) {
+
+            style = (i == this.state.currentPage) ? {color:'red'} : {color:'white'};
+
+            pages.push(
+                <Text key={i} style={[{fontSize:25,color:'red'},style]}>
+                    &bull;
+                </Text>
+            )
+        }
+        return pages;
+    },
+
+
+});
 
 const styles = StyleSheet.create({
     container:{
         backgroundColor:'#dddddd',
-        flex:1,
-        
-    }
+        marginTop:30,
+    },
+    pageViewStyle:{
+        width:ScreenWidth,
+        height:20,
+        backgroundColor:'rgba(0,0,0,0.4)',
+        position:'absolute',
+        bottom:0,
+        flexDirection:'row',
+        alignItems:'center',
 
+
+    }
 })
+
+
+// ES6
+// class DemoScrollView extends  Component {
+//     render(){
+//         return (
+//             <View style={styles.container}>
+//
+//                 <ScrollView
+//                     horizontal={true}
+//                     pagingEnabled={true}
+//                     showsHorizontalScrollIndicator={false}
+//                 >
+//                     {this.addSubViews()}
+//                 </ScrollView>
+//             </View>
+//         );
+//     }
+//
+//     addSubViews(){
+//         var childs = [];
+//         var colors = ['red','gray','green','yellow','red','blue'];
+//         for(var i = 0;i<6;i++){
+//             childs.push(<View key={i} style={{backgroundColor:colors[i],width:ScreenWidth,height:120}}>
+//                 <Text>i</Text>
+//             </View>);
+//         }
+//         return childs;
+//     }
+// }
+
+// const styles = StyleSheet.create({
+//     container:{
+//         backgroundColor:'#dddddd',
+//         flex:1,
+//
+//     }
+//
+// })
 
 module.exports = DemoScrollView;
 
