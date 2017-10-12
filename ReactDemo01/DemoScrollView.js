@@ -30,6 +30,12 @@ var DemoScrollView = React.createClass({
     // 注册定时器
     mixins:[TimerMixin],
 
+    getDefaultProps() {
+        return{
+            duration:1000,
+        }
+    },
+
     getInitialState() {
         return {
             currentPage: 0,
@@ -37,11 +43,33 @@ var DemoScrollView = React.createClass({
 
     },
 
+    componentDidMount(){
+        this.startTimer();
+    },
+
+    startTimer(){
+        var scrollView = this.refs.ScrollView;
+
+        this.timer = this.setInterval(function () {
+            var activePage = this.state.currentPage + 1 ;
+            if(activePage >= ImageData.data.length){
+                activePage = 0;
+            }
+
+            scrollView.scrollResponderScrollTo({x:activePage * ScreenWidth,y:0,animated:true});
+            // this.setState({
+            //     currentPage:activePage,
+            // })
+
+        },1000);
+    },
+
 
     render(){
         return (
             <View style={styles.container}>
                 <ScrollView
+                    ref="ScrollView"
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled={true}
@@ -56,6 +84,13 @@ var DemoScrollView = React.createClass({
                         this.setState({
                             currentPage:page,
                         })
+                    }}
+                    onScrollBeginDrag={()=>{
+                        this.clearInterval(this.timer);
+                    }}
+
+                    onScrollEndDrag={()=>{
+                        this.startTimer();
                     }}
                 >
                     {this.addSubViews()}
