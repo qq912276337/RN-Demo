@@ -14,12 +14,14 @@ var DemoScrollView = require('./DemoScrollView');
 var WineListView = require('./WineListView');
 var NineListView = require('./NineListView');
 var TabbarIOS = require('./TabbarIOS');
+var Main = require('./Component/XMGMain');
+
 
 class ReactDemo01 extends Component {
     render() {
         return (
             <View>
-                <TabbarIOS />
+                <Main />
             </View>
 
         );
