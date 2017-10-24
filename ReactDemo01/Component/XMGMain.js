@@ -47,7 +47,6 @@ var Main = React.createClass({
                         selected={this.state.selectedItem == 0}
                     >
 
-
                         <NavigatorIOS
                             tintColor="orange"
                             style={{flex:1}}

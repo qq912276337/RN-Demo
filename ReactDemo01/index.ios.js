@@ -16,17 +16,19 @@ var NineListView = require('./NineListView');
 var TabbarIOS = require('./TabbarIOS');
 var Main = require('./Component/XMGMain');
 
+import DLFadeAnimationView from './DLFadeAnimationView';
+import CustomTextField from './CustomTextInput';
 
 class ReactDemo01 extends Component {
     render() {
         return (
-            <View>
-                <Main />
-            </View>
+            <CustomTextField>
 
-        );
+            </CustomTextField>
+        )
     }
 }
+
 
 
 AppRegistry.registerComponent('ReactDemo01', () => ReactDemo01);

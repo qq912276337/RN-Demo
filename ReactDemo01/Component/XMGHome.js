@@ -20,22 +20,37 @@ import { List, ListItem, SearchBar } from "react-native-elements";
 var Dimensions = require('Dimensions');
 var ScreenWidth = Dimensions.get('window').width;
 var ScreenHeight = Dimensions.get('window').height;
+
 var Home = React.createClass({
     getInitialState(){
         return{
-            data:[
-                {key: 'Devin'},
-                {key: 'Jackson'},
-                {key: 'Devin1'},
-                {key: 'Jackson1'},
-                {key: 'Devin2'},
-                {key: 'Jack2son'},
-                {key: 'Devin12'},
-                {key: 'Jacks2on1'},
-            ],
+            data:[],
             loading:false,
-
+            refreshing:false,
+            page: 1,
+            seed: 1,
+            error: null,
         }
+    },
+
+    makeRemoteRequest () {
+    const { page, seed } = this.state;
+    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    this.setState({ loading: true });
+
+    fetch(url)
+        .then(res => res.json())
+        .then(res => {
+            this.setState({
+                data: page === 1 ? res.results : [...this.state.data, ...res.results],
+                error: res.error || null,
+                loading: false,
+                refreshing: false
+            });
+        })
+        .catch(error => {
+            this.setState({ error, loading: false });
+        });
     },
 
     renderSeparator(){
@@ -43,9 +58,9 @@ var Home = React.createClass({
         <View
             style={{
           height: 1,
-          width: "86%",
+          width: "100%",
           backgroundColor: "#CED0CE",
-          marginLeft: "14%"
+          // marginLeft: "14%"
         }}
         />
         );
@@ -76,31 +91,62 @@ var Home = React.createClass({
         );
     },
 
+    handleRefresh(){
+        this.setState(
+            {
+                page: 1,
+                seed: this.state.seed + 1,
+                refreshing: true
+            },
+            () => {
+                this.makeRemoteRequest();
+            }
+        );
+    },
+
     handleLoadMore(){
-        this.setState({ loading: true });
+        this.setState(
+            {
+                page: this.state.page + 1
+            },
+            () => {
+                this.makeRemoteRequest();
+            }
+        );
     },
 
     render(){
         return(
             <View style={styles.container}>
                 <FlatList
+                    style={styles.tableStyle}
                     data={this.state.data}
                     renderItem={({item}) => <Text style={styles.item}>{item.key}</Text>}
                     ItemSeparatorComponent={this.renderSeparator}
-                    ListHeaderComponent={this.renderHeader}
+                    // ListHeaderComponent={this.renderHeader}
                     ListFooterComponent={this.renderFooter}
+                    onRefresh={this.handleRefresh}
+                    refreshing={this.state.refreshing}
                     onEndReached={this.handleLoadMore}
-                    onEndReachedThreshold={0.2}
+                    onEndReachedThreshold={0.1}
                 />
             </View>
         );
+
     }
 })
 
 const styles = StyleSheet.create({
     container:{
+        backgroundColor:'#e8e8e8',
         height:ScreenHeight,
     },
+    tableStyle:{
+        backgroundColor:'blue',
+        height:'100%',
+
+    },
+
     item:{
         backgroundColor:'red',
         borderBottomColor:'black',
