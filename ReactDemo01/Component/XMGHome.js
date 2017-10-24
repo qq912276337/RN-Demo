@@ -138,13 +138,15 @@ var Home = React.createClass({
 
 const styles = StyleSheet.create({
     container:{
-        backgroundColor:'#e8e8e8',
-        height:ScreenHeight,
+        backgroundColor:'red',
+        // height:ScreenHeight,
+
     },
     tableStyle:{
         backgroundColor:'blue',
         height:'100%',
-
+        margin:0,
+        padding:0,
     },
 
     item:{

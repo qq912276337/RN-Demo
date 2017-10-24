@@ -17,14 +17,14 @@ var TabbarIOS = require('./TabbarIOS');
 var Main = require('./Component/XMGMain');
 
 import DLFadeAnimationView from './DLFadeAnimationView';
-import CustomTextField from './CustomTextInput';
+// import Mobx_Demo from './Mobx_Demo';
 
 class ReactDemo01 extends Component {
     render() {
         return (
-            <CustomTextField>
+            <Main>
 
-            </CustomTextField>
+            </Main>
         )
     }
 }
