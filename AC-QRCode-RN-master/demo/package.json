@@ -9,7 +9,7 @@
   "dependencies": {
     "ac-qrcode": "^1.0.0",
     "react": "16.0.0-alpha.6",
-    "react-native": "0.43.4",
+    "react-native": "0.49.3",
     "react-native-simple-toast": "0.0.5",
     "react-navigation": "^1.0.0-beta.7"
   },
