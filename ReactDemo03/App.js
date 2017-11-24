@@ -10,7 +10,8 @@ import {
   Text,
   View
 } from 'react-native';
-import DLTest from './DLTest'
+import DLTest from './DLTest';
+import ScanCodeView from './ScanCodeView'
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -27,8 +28,7 @@ export default class App extends Component<{}> {
     return (
 
       <View style={styles.container}>
-
-        <DLTest></DLTest>
+        <ScanCodeView></ScanCodeView>
       </View>
     );
     

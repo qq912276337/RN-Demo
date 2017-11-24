@@ -224,31 +224,25 @@ export default class DLLogFileModule {
         this._appendToFile(path,moment().format(kDayDetailFormatter) + ' app launch init async\n');
         // 限制数量
         this._limitCountOfLogFiles((error,results)=>{
-            if(!error && results.length > 0){
-                // 未开启自动上传
-                if(this.autoUploadEnable == false) return;
+            // 数量大于0 && 开启自动上传
+            if(!error && results.length > 0 && this.autoUploadEnable==true){
+                for(var i = 0;i<results.length;i++){
+                    if(results[i].indexOf(kLog) == -1)continue;
+                    var zipfileName = results[i].split('.')[0] + kZip;
+                    var zipFilePath = this.fullPath(zipfileName);
+                    var logFilePath = this.fullPath(results[i]);
 
-                this._uploadUnarchiveFileInLogFiles(results);
+                    this._uploaLoadUnarchiveFile(logFilePath,zipFilePath,(error,result)=>{
+                        if (error){
+                            this.log('_uploadUnarchiveFileInLogFiles _uploaLoadUnarchiveFile dl_error:'+error.message);
+                        }
+                    });
+                }
             }
         });
     }
 
     /* 上传未压缩的日志文件 */
-    _uploadUnarchiveFileInLogFiles(files){
-        for(var i = 0;i<files.length;i++){
-            if(files[i].indexOf(kLog) == -1)continue;
-            var zipfileName = files[i].split('.')[0] + kZip;
-            var zipFilePath = this.fullPath(zipfileName);
-            var logFilePath = this.fullPath(files[i]);
-
-            this._uploaLoadUnarchiveFile(logFilePath,zipFilePath,(error,result)=>{
-                if (error){
-                    this.log('_uploadUnarchiveFileInLogFiles _uploaLoadUnarchiveFile dl_error:'+error.message);
-                }
-            });
-        }
-    }
-
     _uploaLoadUnarchiveFile(logFilePath,zipFilePath,completeHandler){
         zip(logFilePath,zipFilePath)
             .then((path)=>{
