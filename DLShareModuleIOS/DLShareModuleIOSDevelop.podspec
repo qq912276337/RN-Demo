@@ -1,10 +1,6 @@
-#
-# Be sure to run `pod lib lint DLShareModuleIOSDevelop.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
+require 'json'
+
+package = JSON.parse(File.read(File.join(__dir__, 'package.json')))
 
 Pod::Spec.new do |s|
   s.name             = 'DLShareModuleIOSDevelop'

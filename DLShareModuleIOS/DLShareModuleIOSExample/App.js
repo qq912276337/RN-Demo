@@ -18,6 +18,8 @@ const instructions = Platform.select({
   android: 'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu',
 });
+import DLShareModule from 'dlsharemoduleios';
+
 
 export default class App extends Component<{}> {
   render() {
@@ -32,6 +34,7 @@ export default class App extends Component<{}> {
         <Text style={styles.instructions}>
           {instructions}
         </Text>
+        {DLShareModule.shareText('123',()=>{})}
       </View>
     );
   }

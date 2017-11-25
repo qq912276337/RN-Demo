@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import DLTest from './DLTest';
 import ScanCodeView from './ScanCodeView'
+import BGNativeModuleExample from 'react-native-bgnativemoduleexampleforsml';
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' +
@@ -28,7 +29,8 @@ export default class App extends Component<{}> {
     return (
 
       <View style={styles.container}>
-        <ScanCodeView></ScanCodeView>
+        {BGNativeModuleExample.testPrint('123','123')
+        }
       </View>
     );
     
